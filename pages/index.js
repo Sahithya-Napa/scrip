@@ -6,11 +6,20 @@ import ProductCard from '../components/ProductCard'
 import Filters from '../components/Filters'
 
 export async function getServerSideProps() {
-  const res = await fetch('https://fakestoreapi.com/products')
-  const products = await res.json()
+  try {
+    const res = await fetch('https://fakestoreapi.com/products')
+    if (!res.ok) throw new Error('API error')
+    const products = await res.json()
 
-  return {
-    props: { products },
+    return {
+      props: { products },
+      revalidate: 3600,
+    }
+  } catch (error) {
+    return {
+      props: { products: [] },
+      revalidate: 60,
+    }
   }
 }
 

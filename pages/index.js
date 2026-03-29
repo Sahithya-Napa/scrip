@@ -13,12 +13,10 @@ export async function getServerSideProps() {
 
     return {
       props: { products },
-      revalidate: 3600,
     }
   } catch (error) {
     return {
       props: { products: [] },
-      revalidate: 60,
     }
   }
 }
